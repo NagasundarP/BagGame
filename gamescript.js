@@ -37,7 +37,7 @@ const bagData = [
   const startButton = document.getElementById("startButton");
   const selectedBagInfo = document.getElementById("selectedBagInfo");
   const restartButton = document.getElementById("restartButton");
-  
+
   let selectedBag = null;
   let computerSelectedBag = null;
   let gameInProgress = false;
@@ -49,7 +49,10 @@ const bagData = [
   function calculateDifference(value1, value2) {
     return Math.abs(value1 - value2);
   }
-  
+
+  function navPage() {
+    setTimeout(function(){ window.location.href = "win.html"; }, 1500);
+    }
   function showRandomBagAndDifference() {
     computerSelectedBag = selectRandomBag();
     selectedBagInfo.textContent = `Your bag ${selectedBag.name} with value ${selectedBag.value} and Random selected bag: ${computerSelectedBag.name} with a value of $${computerSelectedBag.value}.`;
@@ -59,9 +62,10 @@ const bagData = [
       computerSelectedBag.value
     );
     selectedBagInfo.textContent += ` Your difference is $${userDifference}.`;
-    console.log(selectedBag.value);
     if (selectedBag.value > computerSelectedBag.value) {
       selectedBagInfo.textContent += " You win!";
+      navPage()  
+      
     } else {
       selectedBagInfo.textContent += " You lose!";
     }
@@ -83,6 +87,7 @@ const bagData = [
     }
 
   bagData.forEach((bag, index) => {
+
     bag.value = possibleValues[index];
   
     const bagElement = document.createElement("div");
@@ -90,6 +95,7 @@ const bagData = [
   
     const bagName = document.createElement("p");
     bagName.textContent = bag.name;
+
   
     const bagValue = document.createElement("p");
     // bagValue.textContent = `$${bag.value}`;

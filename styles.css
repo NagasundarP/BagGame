@@ -111,3 +111,8 @@ body {
     align-items: center;
     margin: 20px 0;
   }
+  .result-message {
+    display: none; /* Hide the result message by default */
+    font-size: 18px;
+    margin-top: 10px;
+  }
