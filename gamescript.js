@@ -52,7 +52,7 @@ const bagData = [
   
   function showRandomBagAndDifference() {
     computerSelectedBag = selectRandomBag();
-    selectedBagInfo.textContent = `Random selected bag: ${computerSelectedBag.name} with a value of $${computerSelectedBag.value}.`;
+    selectedBagInfo.textContent = `Your bag ${selectedBag.name} with value ${selectedBag.value} and Random selected bag: ${computerSelectedBag.name} with a value of $${computerSelectedBag.value}.`;
   
     const userDifference = calculateDifference(
       selectedBag.value,
