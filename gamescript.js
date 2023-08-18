@@ -95,6 +95,7 @@ const bagData = [
   
     const bagName = document.createElement("p");
     bagName.textContent = bag.name;
+    bagName.classList.add("bagName");
 
   
     const bagValue = document.createElement("p");
