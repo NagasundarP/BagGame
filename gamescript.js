@@ -37,10 +37,15 @@ const bagData = [
   const startButton = document.getElementById("startButton");
   const selectedBagInfo = document.getElementById("selectedBagInfo");
   const restartButton = document.getElementById("restartButton");
+  const modal = document.getElementById("myModal");
+  const modalContent = document.querySelector(".modal-content");
+  const closeModal = document.querySelector(".close");
+
 
   let selectedBag = null;
   let computerSelectedBag = null;
   let gameInProgress = false;
+
   
   function selectRandomBag() {
     return bagData[Math.floor(Math.random() * bagData.length)];
@@ -75,14 +80,15 @@ const bagData = [
   }
 
   function checkSelectedBag(bag) {
-    if (confirm("Continue with this bag? If not, a random bag will be selected.")) {
+    randomBag = selectRandomBag();
+    if (confirm(`Continue with this bag ${bag.name} or Random bag ${randomBag.name} will be selected.`)) {
+      
       txt = "You pressed OK!"; 
       return bag;
     }
     else {
         txt = "You pressed Cancel!";
-        bag = selectRandomBag();
-        return bag;
+        return randomBag;
     }
     }
 
@@ -108,8 +114,8 @@ const bagData = [
   
     bagElement.addEventListener("click", () => {
       if (gameInProgress && !selectedBag) {
-        selectedBag =  checkSelectedBag(bag);;
-        selectedBagInfo.textContent = `You selected bag: ${bag.name}.`;
+        selectedBag =  checkSelectedBag(bag);
+        selectedBagInfo.textContent = `You selected bag: ${selectedBag.name}.`;
 
         setTimeout(() => {
           showRandomBagAndDifference();
@@ -152,6 +158,7 @@ const bagData = [
     goBack.addEventListener("click", () => {
         window.location.href = "index.html";
     });
+
 
   
   // Initialize game
