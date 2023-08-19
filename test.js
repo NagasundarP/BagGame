@@ -19,7 +19,6 @@ const bagData = [
   
   const minValue = 500;
   const maxValue = 250000;
-  
   function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -32,7 +31,6 @@ const bagData = [
     (_, index) => index + minValue
   );
   shuffleArray(possibleValues);
-  
   const bagContainer = document.getElementById("bagContainer");
   const startButton = document.getElementById("startButton");
   const selectedBagInfo = document.getElementById("selectedBagInfo");
@@ -40,13 +38,14 @@ const bagData = [
   const modal = document.getElementById("myModal");
   const modalContent = document.querySelector(".modal-content");
   const closeModal = document.querySelector(".close");
-
-
+  const selectedBagOption = document.getElementById("selectedBagOption");
+  const randomBagOption = document.getElementById("randomBagOption");
+  
   let selectedBag = null;
   let computerSelectedBag = null;
   let gameInProgress = false;
-
   
+  // ... (rest of the code, including selectRandomBag and calculateDifference functions)
   function selectRandomBag() {
     return bagData[Math.floor(Math.random() * bagData.length)];
   }
@@ -78,21 +77,36 @@ const bagData = [
     restartButton.style.display = "block";
 
   }
+  function showModalWithOptions() {
+    modal.style.display = "block";
   
-
+    selectedBagOption.addEventListener("click", () => {
+      selectedBag = bag;
+      closeModalListener();
+      setTimeout(() => {
+        showRandomBagAndDifference();
+      }, 1000);
+    });
+  
+    randomBagOption.addEventListener("click", () => {
+      selectedBag = randomBag;
+      closeModalListener();
+      setTimeout(() => {
+        showRandomBagAndDifference();
+      }, 1000);
+    });
+  }
+  
   function checkSelectedBag(bag) {
     randomBag = selectRandomBag();
-    if (confirm(`Continue with this bag ${bag.name} or Random bag ${randomBag.name} will be selected.`)) {
-      
-      txt = "You pressed OK!"; 
-      return bag;
-    }
-    else {
-        txt = "You pressed Cancel!";
-        return randomBag;
-    }
-    }
-
+    showModalWithOptions();
+  }
+  
+  function closeModalListener() {
+    modal.style.display = "none";
+    selectedBagOption.removeEventListener("click", closeModalListener);
+    randomBagOption.removeEventListener("click", closeModalListener);
+  }
   bagData.forEach((bag, index) => {
 
     bag.value = possibleValues[index];
@@ -125,6 +139,8 @@ const bagData = [
     });
   });
   
+  // ... (rest of the code, including bagData forEach loop)
+  
   startButton.addEventListener("click", () => {
     selectedBagInfo.textContent = `You started the game. Choose a bag to continue.`;
     startButton.style.display = "none";
@@ -136,7 +152,7 @@ const bagData = [
     selectedBagInfo.textContent = `You restarted the game. Choose a bag to continue.`;
     restartButton.style.display = "none";
     gameInProgress = true;
-
+  
     shuffleArray(possibleValues);
   
     // Reset bag values based on new possibleValues
@@ -151,16 +167,14 @@ const bagData = [
   });
   
   // Initialize game
-
   const playerNameElement = document.getElementById("playerName");
   const playerName = localStorage.getItem("playerName");
   playerNameElement.textContent = playerName ? `Welcome, ${playerName}!` : "Welcome, Player";
   const goBack = document.getElementById("backButton");
-    goBack.addEventListener("click", () => {
-        window.location.href = "index.html";
-    });
-
-
+  goBack.addEventListener("click", () => {
+    window.location.href = "index.html";
+  });
   
   // Initialize game
   initializeGame();
+  
