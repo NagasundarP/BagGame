@@ -73,7 +73,7 @@ body {
     width: 120px;
     height: 125px;
     /* background-color: gray; */
-    background-image: url('Vector1.png');
+    background-image: url('Images/Vector1.png');
     margin: 10px;
     display: flex;
     flex-direction: column;

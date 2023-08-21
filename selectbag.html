@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .bag-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .bag {
+        width: 140px;
+        height: 160px;
+        background-color: #e0e0e0;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: border 0.3s;
+      }
+
+      .bag:hover {
+        border: 2px solid #0056b3;
+      }
+
+      .bag p {
+        font-weight: bold;
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Choose a Bag</h1>
+    <p>Which bag would you like to continue with?</p>
+
+    <div class="bag-container">
+      <div class="bag" id="selectedBagButton">
+        <!-- <p>Selected Bag</p>
+         -->
+        <span id="selected-bag-name"></span>
+        <img src="Images/Vector1.png" alt="Selected Bag" />
+      </div>
+      <div class="bag" id="randomBagButton">
+        <!-- <p>Random Bag</p>
+         -->
+        <span id="random-bag-name"></span>
+        <img src="Images/Vector1.png" alt="Random Bag" />
+      </div>
+    </div>
+
+    <div id="differenceContainer" style="display: none">
+      <p>
+        Difference between selected bag value
+        <span id="selected-bag-value"></span> and random bag value
+        <span id="random-bag-value"></span>
+        is
+        <span id="differenceValue"></span>
+      </p>
+    </div>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const secondRandombag = JSON.parse(urlParams.get("secondRandombag"));
+      const randomBag = JSON.parse(urlParams.get("randomBag"));
+      const originalBag = JSON.parse(urlParams.get("originalBag"));
+
+      const selectedBagButton = document.getElementById("selectedBagButton");
+      const randomBagButton = document.getElementById("randomBagButton");
+      const selectedBagName = document.getElementById("selected-bag-name");
+      const randomBagName = document.getElementById("random-bag-name");
+      selectedBagName.textContent = `${originalBag.name}`;
+      randomBagName.textContent = `${randomBag.name}`;
+
+      const differenceContainer = document.getElementById(
+        "differenceContainer"
+      );
+      const differenceValueElement = document.getElementById("differenceValue");
+      const selectedBagValueElement =
+        document.getElementById("selected-bag-value");
+      const randomBagValueElement = document.getElementById("random-bag-value");
+
+      selectedBagButton.addEventListener("click", () => {
+          showDifference(originalBag, secondRandombag);
+      });
+
+      randomBagButton.addEventListener("click", () => {
+          showDifference(randomBag, secondRandombag);
+      });
+
+      function showDifference(chosenBag, secondBag) {
+        const difference = calculateDifference(
+          chosenBag.value,
+          secondBag.value
+        );
+        selectedBagValueElement.textContent = `$${chosenBag.value}`;
+        randomBagValueElement.textContent = `$${secondBag.value}`;
+        differenceValueElement.textContent = `$${difference}`;
+        if (chosenBag.value > secondBag.value) {
+          const originalBagString = JSON.stringify(chosenBag);
+          const url = `win.html?bag=${originalBagString}`;
+          window.location.href = url;
+
+        //   window.location.href = "win.html";
+        } else {
+          window.location.href = "lose.html";
+        }
+      }
+
+      function calculateDifference(value1, value2) {
+        return Math.abs(value1 - value2);
+      }
+    </script>
+  </body>
+</html>

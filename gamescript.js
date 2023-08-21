@@ -1,3 +1,11 @@
+const playerNameElement = document.getElementById("playerName");
+const playerName = localStorage.getItem("playerName");
+playerNameElement.textContent = playerName ? `Welcome, ${playerName}!` : "Welcome, Player";
+const goBack = document.getElementById("backButton");
+  goBack.addEventListener("click", () => {
+      window.location.href = "index.html";
+  });
+
 const bagData = [
     { name: "Bag 1" },
     { name: "Bag 2" },
@@ -34,7 +42,6 @@ const bagData = [
   shuffleArray(possibleValues);
   
   const bagContainer = document.getElementById("bagContainer");
-  const startButton = document.getElementById("startButton");
   const selectedBagInfo = document.getElementById("selectedBagInfo");
   const restartButton = document.getElementById("restartButton");
   const modal = document.getElementById("myModal");
@@ -54,43 +61,20 @@ const bagData = [
   function calculateDifference(value1, value2) {
     return Math.abs(value1 - value2);
   }
-
-  function navPage() {
-    setTimeout(function(){ window.location.href = "win.html"; }, 1500);
-    }
-  function showRandomBagAndDifference() {
-    computerSelectedBag = selectRandomBag();
-    selectedBagInfo.textContent = `Your bag ${selectedBag.name} with value ${selectedBag.value} and Random selected bag: ${computerSelectedBag.name} with a value of $${computerSelectedBag.value}.`;
-  
-    const userDifference = calculateDifference(
-      selectedBag.value,
-      computerSelectedBag.value
-    );
-    selectedBagInfo.textContent += ` Your difference is $${userDifference}.`;
-    if (selectedBag.value > computerSelectedBag.value) {
-      selectedBagInfo.textContent += " You win!";
-      navPage()  
-      
-    } else {
-      selectedBagInfo.textContent += " You lose!";
-    }
-  
-    restartButton.style.display = "block";
-
-  }
   
 
   function checkSelectedBag(bag) {
     randomBag = selectRandomBag();
-    if (confirm(`Continue with this bag ${bag.name} or Random bag ${randomBag.name} will be selected.`)) {
-      
-      txt = "You pressed OK!"; 
-      return bag;
-    }
-    else {
-        txt = "You pressed Cancel!";
-        return randomBag;
-    }
+    secondRandomBag = selectRandomBag();
+    const randomBagString = JSON.stringify(randomBag);
+    const secondBagString = JSON.stringify(secondRandomBag);
+    const originalBagString = JSON.stringify(bag);
+
+    // Construct the URL with query parameters
+    const url = `selectbag.html?secondRandombag=${encodeURIComponent(secondBagString)}&randomBag=${encodeURIComponent(randomBagString)}&originalBag=${encodeURIComponent(originalBagString)}`;
+
+    // Redirect to the new page
+    window.location.href = url;
     }
 
   bagData.forEach((bag, index) => {
@@ -116,16 +100,11 @@ const bagData = [
     bagElement.addEventListener("click", () => {
       if (gameInProgress && !selectedBag) {
         selectedBag =  checkSelectedBag(bag);
-        selectedBagInfo.textContent = `You selected bag: ${selectedBag.name}.`;
-
-        setTimeout(() => {
-          showRandomBagAndDifference();
-        }, 1000);
       }
     });
   });
   
-  startButton.addEventListener("click", () => {
+  window.addEventListener("load", () => {
     selectedBagInfo.textContent = `You started the game. Choose a bag to continue.`;
     startButton.style.display = "none";
     gameInProgress = true;
@@ -152,15 +131,6 @@ const bagData = [
   
   // Initialize game
 
-  const playerNameElement = document.getElementById("playerName");
-  const playerName = localStorage.getItem("playerName");
-  playerNameElement.textContent = playerName ? `Welcome, ${playerName}!` : "Welcome, Player";
-  const goBack = document.getElementById("backButton");
-    goBack.addEventListener("click", () => {
-        window.location.href = "index.html";
-    });
 
 
-  
-  // Initialize game
-  initializeGame();
+
