@@ -43,7 +43,6 @@ const bagData = [
   
   const bagContainer = document.getElementById("bagContainer");
   const selectedBagInfo = document.getElementById("selectedBagInfo");
-  const restartButton = document.getElementById("restartButton");
   const modal = document.getElementById("myModal");
   const modalContent = document.querySelector(".modal-content");
   const closeModal = document.querySelector(".close");
@@ -109,28 +108,6 @@ const bagData = [
     startButton.style.display = "none";
     gameInProgress = true;
     bagContainer.classList.remove("disabled");
-  });
-  
-  restartButton.addEventListener("click", () => {
-    selectedBagInfo.textContent = `You restarted the game. Choose a bag to continue.`;
-    restartButton.style.display = "none";
-    gameInProgress = true;
-
     shuffleArray(possibleValues);
   
-    // Reset bag values based on new possibleValues
-    bagData.forEach((bag, index) => {
-      bag.value = possibleValues[index];
-      const bagValueElement =
-        bagContainer.children[index].querySelector("p:nth-child(2)");
-    });
-  
-    // Clear selected bag and reset game status
-    selectedBag = null;
   });
-  
-  // Initialize game
-
-
-
-
